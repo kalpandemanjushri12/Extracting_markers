@@ -7,7 +7,7 @@ BiocManager::install("Biostrings")
 library(Biostrings)
 
 
-setwd("/home/ibab/Desktop/markers/chr7")
+setwd("/home/Desktop/markers/chr7")
 getwd()
 
 # Define the path to your FASTA file
@@ -54,28 +54,3 @@ for (i in seq_along(markers)) {
 
 writeLines(fasta_lines, output_fasta_file)
 cat("Markers saved to:", output_fasta_file, "\n")
-
-# Save markers in a text file
-output_text_file <- "chr7_markers.txt"
-fileConn <- file(output_text_file, open = "w")
-for (i in seq_along(markers)) {
-  writeLines(paste(
-    "Marker", i,
-    "Start:", markers[[i]]$start,
-    "End:", markers[[i]]$end,
-    "Sequence:", as.character(markers[[i]]$sequence)
-  ), fileConn)
-}
-close(fileConn)
-cat("Markers saved to:", output_text_file, "\n")
-
-# Optional: Visualize markers (using ggplot2)
-library(ggplot2)
-marker_positions <- data.frame(
-  start_position = seq(1, seq_length - marker_size + 1, by = step_size),
-  end_position = seq(1 + marker_size - 1, seq_length, by = step_size)
-)
-ggplot(marker_positions, aes(x = start_position, xend = end_position, y = 1, yend = 1)) +
-  geom_segment() +
-  labs(title = "Markers along Chromosome 17", x = "Position", y = "Markers") +
-  theme_minimal()
